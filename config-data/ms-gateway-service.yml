@@ -15,4 +15,3 @@ spring:
         locator:
           enable: true
       routes:
-        
