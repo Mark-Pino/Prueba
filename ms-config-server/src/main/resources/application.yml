@@ -8,7 +8,7 @@ spring:
     config:
       server:
         git:
-          uri: https://github.com/Mark-Pino/Prueba.git
+          uri: https://github.com/Mark-Pino/Salas-Calzados.git
           searchPaths: config-data
           #username:
           #password:
