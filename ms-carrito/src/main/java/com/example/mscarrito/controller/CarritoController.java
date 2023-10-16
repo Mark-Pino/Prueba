@@ -2,8 +2,10 @@ package com.example.mscarrito.controller;
 
 import com.example.mscarrito.entity.CarritoItem;
 import com.example.mscarrito.service.CarritoService;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import jakarta.persistence.Id;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,9 +32,10 @@ public class CarritoController {
         return carritoService.agregarItemAlCarrito(item);
     }
 
-    @GetMapping("/item/{id}")
-    public Optional<CarritoItem> obtenerItemPorId(@PathVariable Integer id) {
-        return carritoService.ListarPorId(id);
+    @CircuitBreaker(name = "carritoListarPorIdCB", fallbackMethod = "fallBackCarritoListarPorIdCB")
+    @GetMapping("/{id}")
+    public ResponseEntity<CarritoItem> listById(@PathVariable(required = true) Integer id) {
+        return ResponseEntity.ok().body(carritoService.ListarPorId(id).get());
     }
 
     @DeleteMapping("/vaciar/{id}")
@@ -44,4 +47,9 @@ public class CarritoController {
     public CarritoItem vaciarCarrito(@RequestBody CarritoItem item) {
         return carritoService.vaciarCarrito(item);
     }
+    private ResponseEntity<CarritoItem> fallBackProductoListarPorIdCB(@PathVariable(required = true) Integer id, RuntimeException e) {
+        CarritoItem carritoItem = new CarritoItem();
+        carritoItem.setId(90000);
+        return ResponseEntity.ok().body(carritoItem);
+}
 }
