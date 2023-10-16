@@ -15,7 +15,7 @@ spring:
         locator:
           enable: true
       routes:
-        - id: ms-pedido-service
-          uri: lb://ms-pedido-service
+        - id: ms-procesamiento-pedidos-service
+          uri: lb://ms-procesamiento-pedidos-service
           predicates:
             - Path=/pedido/**
