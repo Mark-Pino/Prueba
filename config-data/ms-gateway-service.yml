@@ -19,3 +19,11 @@ spring:
           uri: lb://ms-procesamiento-pedidos-service
           predicates:
             - Path=/pedido/**
+        - id: ms-inventario-service
+          uri: lb://ms-inventario-service
+          predicates:
+            - Path=/almacen/**
+        - id: ms-proveedor-service
+          uri: lb://ms-proveedor-service
+          predicates:
+            - Path=/proveedor/**
